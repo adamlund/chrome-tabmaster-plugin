@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>List the open tab titles</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+      body {
+        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-size: 100%;
+      }
+      .wrapper {
+      	padding: 20px;
+      }
+      #status {
+        /* avoid an excessively wide status text */
+        white-space: pre;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 400px;
+      }
+      #open_tabs div {
+        margin-top: 10px;
+        font-size: 11px;
+        cursor: pointer;
+      }
+      #window-count + span {
+        margin-left: 20px;
+      }
+      h2 {
+        font-size: 1.5em;
+
+      }
+      #open_tabs div img {
+        height: 15px;
+        width: 15px;
+        margin-right: 10px;
+      }
+
+
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+     -->
+    <script src="tablist.js"></script>
+  </head>
+  <body>
+  	<div class="wrapper">
+	  <div class="stats">
+	  	<img src="img/icon-tabs.png" height="16" width="20" alt="Tab Count"> <span id="tab-count"></span>
+	  	<img src="img/icon-window.svg" height="16" width="20" alt="Window Count"> <span id="window-count"></span>
+	  </div>
+	  <div id="open_tabs"></div>
+	</div>
+  </body>
+</html>
+

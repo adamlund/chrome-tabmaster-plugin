@@ -1,0 +1,25 @@
+{
+	"manifest_version" : 2,
+
+	"name" : "View all tabs",
+	"description" : "See if there's already what you want in an open tab",
+	"version" : "0.1",
+	"icons": {
+		"16": "img/logo16x.png",
+		"48": "img/logo48x.png",
+		"128": "img/logo128x.png"
+	},
+	"browser_action" : {
+		"default_icon": {
+			"19": "img/logo16x.svg",
+			"38": "img/logo32x.png"
+        },
+		"default_popup" : "tablist.html",
+		"default_title" : "View open tabs"
+	},
+	"permissions" : [
+		"activeTab",
+		"tabs"
+	]
+
+}
