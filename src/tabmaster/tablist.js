@@ -52,36 +52,36 @@ var TabMasterModel = {
 
   renderList: function(){
     var self = this;
-    var container = document.createElement("DIV");
+    var list = document.createElement("ul");
 
     document.getElementById("tab-count").innerHTML = ""+self.myTabs.length;
     document.getElementById("window-count").innerHTML = ""+self.myWindowIDs.length;
 
-
-
     self.myTabs.forEach(function(tab){
-      var row = self.renderTab(tab);
-      container.appendChild(row);
+      list.appendChild(self.___renderTab(tab));
     });
 
-    document.getElementById("open_tabs").appendChild(container);
+    document.getElementById("open_tabs").appendChild(list);
 
     this.clearButton(false);
   },
 
-  renderTab: function(tab){
+  ___renderTab: function(tab){
     var tabref    = document.createElement("BUTTON"),
+     faviconSpan     = document.createElement("SPAN"),
      favicon      = document.createElement("IMG"),
      titletxt     = document.createElement("SPAN"),
-     row          = document.createElement("DIV");
+     row          = document.createElement("LI");
 
     tabref.setAttribute("data-tabid", tab.id);
     tabref.setAttribute("data-windowid", tab.windowId);
     tabref.setAttribute("data-url", tab.url);
 
+    faviconSpan.className = "favicon";
     favicon.setAttribute("src", (typeof tab.favIconUrl === 'undefined' ? "img/icon-blank-tab.svg" : tab.favIconUrl));
+    faviconSpan.appendChild(favicon);
 
-    tabref.appendChild(favicon);
+    tabref.appendChild(faviconSpan);
     titletxt.innerText = tab.title;
     tabref.appendChild(titletxt);
 
@@ -109,8 +109,12 @@ var TabMasterModel = {
       return false;
     }
 
+    // needs to be case insensitive
+    var re = new RegExp(search_term, "i");
+
+    // do check for
     var results = this.myTabs.filter(function(the_tab){
-      return the_tab.title.includes(search_term) || the_tab.url.includes(search_term);
+      return the_tab.url.includes(search_term) || re.test(the_tab.title);
     });
 
     self.clearList();
@@ -119,15 +123,25 @@ var TabMasterModel = {
       var note = document.createElement("div");
       note.className = "notif";
       note.setAttribute('role', 'alert');
-      note.textContent = "No results matching "+search_term;
+      note.textContent = "No open tabs matching "+search_term;
       document.getElementById("open_tabs").appendChild(note);
       self.clearButton(true);
+
+      // search recent (24hrs) browser history, user might have closed the tab
+      var sh = document.createElement("div");
+      sh.textContent = "searching history...";
+      note.appendChild(sh);
+
+      self.searchHistory(search_term, sh);
       return false;
     }
 
+    var list = document.createElement('ul');
+
     results.forEach(function(tab){
-      document.getElementById("open_tabs").appendChild(self.renderTab(tab));
+      list.appendChild(self.___renderTab(tab));
     });
+    document.getElementById("open_tabs").appendChild(list);
     self.clearButton(true);
 
   },
@@ -173,8 +187,38 @@ var TabMasterModel = {
       return true;
     }
   },
-  searchHistory: function(searchterm){
-    chrome.history.search(function(history_array){
+  __makelink: function(history_item){ // pass a history item
+    var link = document.createElement("A");
+    link.setAttribute("href", history_item.url);
+    link.textContent = history_item.title && history_item.title.length > 0 ? history_item.title : history_item.url;
+    link.setAttribute("target", "_blank");
+    return link;
+  },
+  __renderLinks: function(history_array){
+    var self = this;
+    var list = document.createElement("ul");
+
+    history_array.forEach(function(histitem){
+      var li = document.createElement("LI");
+      li.appendChild(self.__makelink(histitem));
+      list.appendChild(li);
+    });
+    return list;
+  },
+  searchHistory: function(searchterm, textUpdate){
+
+    var self = this;
+
+    chrome.history.search({ text: searchterm, maxResults: 100}, function(history_array){
+
+      if(history_array && history_array.length > 0){
+        textUpdate.textContent = " "+history_array.length+" links found in history";
+
+        document.getElementById("open_tabs").appendChild(self.__renderLinks(history_array));
+      }
+      else {
+        textUpdate.textContent = "";
+      }
 
     });
   }

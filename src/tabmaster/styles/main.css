@@ -99,19 +99,39 @@ h2 {
     background-color: #F5F5F5;
 }
 .tablist button:hover,
-.tablist button:focus {
+.tablist button:focus,
+.tablist a:hover,
+.tablist a:focus {
     background-color: #fff;
 }
-.tablist button:focus {
+.tablist button:focus,
+.tablist a:focus {
     outline: none;
     border: solid 2px #1194F6;
 }
-.tablist button img {
+.tablist span.favicon {
     width: 15px;
+    height: 15px;
     margin-right: 10px;
 }
-.tablist > div {
+.tablist button img {
+    width: 15px;
+    height: 15px;
+}
+.tablist ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.tablist ul li {
     border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.tablist ul > li > a {
+    font-size: .85em;
+    padding: 11px 21px 11px 7px;
+    margin: 0;
+    display: flex;
+    background-color: #F5F5F5;
 }
 .windowbox {
     border-left: solid 3px #787878;
@@ -122,4 +142,9 @@ h2 {
 .notif {
     padding: 11px 21px 11px 7px;
     font-size: .85em;
+}
+
+.notif > div {
+    padding-top: 10px;
+    font-size: 75%;
 }
