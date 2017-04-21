@@ -1,0 +1,125 @@
+/**
+    Reset
+ */
+html, body {
+    width: 400px;
+    height: 450px;
+    overflow: hidden;
+}
+body {
+    font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+    display: flex;
+}
+/**
+    Layout
+ */
+.wrapper {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+/**
+    Utility
+ */
+.hide {
+    display: none;
+    visibility: hidden;
+}
+.show {
+    display: block;
+    visibility: visible;
+}
+
+/**
+    Header
+ */
+.popupheader {
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0 10px 20px;
+
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
+}
+.tabfilter {
+    padding: 17px 0 7px 0;
+}
+.tabfilter #resetButton {
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    height: 25px;
+    width: 25px;
+    padding: 0px 0px 0px 0px;
+    background: transparent;
+    border: solid 2px #efefef;
+}
+.tabfilter input[type='text'] {
+    border: 2px solid #999;
+    padding: 5px;
+    line-height: 1.2em;
+    font-size: 100%;
+    width: 350px;
+}
+.tabfilter input:focus,
+.tabfilter #resetButton:focus {
+    outline: none;
+    border: solid 2px #1194F6;
+}
+#window-count + span {
+    margin-left: 20px;
+}
+h2 {
+    font-size: 1.5em;
+}
+
+/**
+    Content
+ */
+.tablist {
+    overflow-y: scroll;
+}
+.tablist button {
+    display: flex;
+    padding: 11px 21px 11px 7px;
+    margin: 0;
+    font-size: .75em;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    text-align: left;
+    cursor: pointer;
+    background-color: #F5F5F5;
+}
+.tablist button:hover,
+.tablist button:focus {
+    background-color: #fff;
+}
+.tablist button:focus {
+    outline: none;
+    border: solid 2px #1194F6;
+}
+.tablist button img {
+    width: 15px;
+    margin-right: 10px;
+}
+.tablist > div {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.windowbox {
+    border-left: solid 3px #787878;
+    padding-left: 15px;
+    margin-top: 15px;
+}
+
+.notif {
+    padding: 11px 21px 11px 7px;
+    font-size: .85em;
+}

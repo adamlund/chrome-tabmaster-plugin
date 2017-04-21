@@ -17,9 +17,18 @@
 		"default_popup" : "tablist.html",
 		"default_title" : "View open tabs"
 	},
+	"commands" : {
+		"_execute_browser_action": {
+			"suggested_key" : {
+				"windows" : "Ctrl+Shift+T",
+				"mac" :	"MacCtrl+Shift+T"
+			}
+		}
+	},
 	"permissions" : [
 		"activeTab",
-		"tabs"
+		"tabs",
+		"history"
 	]
 
 }
