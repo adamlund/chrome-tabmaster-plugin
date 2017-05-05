@@ -7,7 +7,8 @@ html, body {
     overflow: hidden;
 }
 body {
-    font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+    /* font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif; */
+    font-family: "Roboto Sans", Helvetica, Arial, sans-serif;
     font-size: 100%;
     margin: 0;
     padding: 0;
@@ -72,8 +73,12 @@ body {
     outline: none;
     border: solid 2px #1194F6;
 }
-#window-count + span {
-    margin-left: 20px;
+.lbltxt {
+    margin-right: 20px;
+    margin-left: 7px;
+    color: #787878;
+    font-size: 75%;
+    text-transform: uppercase;
 }
 h2 {
     font-size: 1.5em;
@@ -99,9 +104,7 @@ h2 {
     background-color: #F5F5F5;
 }
 .tablist button:hover,
-.tablist button:focus,
-.tablist a:hover,
-.tablist a:focus {
+.tablist button:focus {
     background-color: #fff;
 }
 .tablist button:focus,
@@ -126,13 +129,28 @@ h2 {
 .tablist ul li {
     border-bottom: 1px solid rgba(0,0,0,0.1);
 }
-.tablist ul > li > a {
+.tablist ul > li > a,
+.tablist ul > li > a:visited {
+    color:blue;
+    text-decoration: none;
+}
+.tablist ul > li.histItem:hover {
+    background-color: #fff;
+}
+.tablist ul > li.histItem {
     font-size: .85em;
     padding: 11px 21px 11px 7px;
     margin: 0;
     display: flex;
+    flex-direction: column;
     background-color: #F5F5F5;
 }
+.tablist ul > li.histItem div {
+    font-size: 85%;
+    margin-top: 3px;
+    color: #787878;
+}
+
 .windowbox {
     border-left: solid 3px #787878;
     padding-left: 15px;
@@ -142,9 +160,19 @@ h2 {
 .notif {
     padding: 11px 21px 11px 7px;
     font-size: .85em;
+    border-bottom: 1px solid rgba(0,0,0,0.4);
 }
 
 .notif > div {
     padding-top: 10px;
     font-size: 75%;
+}
+
+/**
+* For accessible alerts and notifications
+*/
+.accessibilityText {
+    height: 0;
+    width: 0;
+    text-indent: -99999px;
 }
