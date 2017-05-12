@@ -54,7 +54,7 @@ body {
 .tabfilter #resetButton {
     position: absolute;
     right: 20px;
-    top: 60px;
+    top: 61px;
     height: 25px;
     width: 25px;
     padding: 0px 0px 0px 0px;
@@ -102,12 +102,17 @@ h2 {
     text-align: left;
     cursor: pointer;
     background-color: #F5F5F5;
+    box-shadow: inset 0px 0px 0px 0px #F5F5F5;
+    transition: box-shadow .33s;
 }
 .tablist button:hover,
 .tablist button:focus {
     background-color: #fff;
 }
-.tablist button:focus,
+.tablist button:focus {
+    outline: none;
+    box-shadow: inset 0px 0px 0px 3px rgba(17,148,246,1);
+}
 .tablist a:focus {
     outline: none;
     border: solid 2px #1194F6;

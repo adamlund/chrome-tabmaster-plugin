@@ -67,6 +67,8 @@ var TabMasterModel = {
 
     document.getElementById("open_tabs").appendChild(list);
 
+    KeyboardableList.generate(list);
+
     this.___setNote(""+self.myTabs.length+" open tabs", null, false);
 
     this.clearButton(false);
@@ -165,6 +167,8 @@ var TabMasterModel = {
       list.appendChild(self.___renderTab(tab));
     });
     document.getElementById("open_tabs").appendChild(list);
+    KeyboardableList.generate(list);
+
     self.clearButton(true);
     self.___setNote(""+results.length+" tabs matching \""+search_term+"\"", null, true);
 
@@ -183,7 +187,13 @@ var TabMasterModel = {
     this.myClearButton = button_elem;
 
     search_elem.addEventListener('keyup', function __keypressAndFilterEvent(event) {
-      self.filterTabs( event.target.value );
+      if(event.keyCode === 40) {
+        document.getElementById("open_tabs").querySelector('button, a').focus();
+        event.preventDefault();
+      }
+      else {
+        self.filterTabs( event.target.value );
+      }
     });
     button_elem.addEventListener('click', function __clearAndRenderEvent(event) {
       search_elem.value = "";
@@ -253,9 +263,13 @@ var TabMasterModel = {
 
       if(history_array && history_array.length > 0){
         self.clearList("open_tabs");
+
+        var list = self.__renderLinks(history_array);
         textUpdate.textContent = " "+history_array.length;
         textUpdate.textContent += history_array.length > 1 ? " links in history" : " link in history";
-        document.getElementById("open_tabs").appendChild(self.__renderLinks(history_array));
+
+        document.getElementById("open_tabs").appendChild(list);
+        KeyboardableList.generate(list);
       }
       else {
         textUpdate.textContent = "No history items found either. Searched back to "+new Date(newtime).toDateString();
