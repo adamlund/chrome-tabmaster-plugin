@@ -2,18 +2,18 @@
 	"manifest_version" : 2,
 
 	"name" : "Tab Stacks: A menu listing your open tabs",
-	"description" : "View a list of all open tabs and filter to find open tabs. CTRL+SHIFT+T to open ESC to close. Screen reader accessible.",
+	"description" : "View a list of all open tabs and filter to find open tabs. CTRL+SHIFT+T to open ESC to close.",
 	"version" : "1.1.0",
 	"icons": {
-		"16": "img/logo16x.png",
-		"48": "img/logo48x.png",
+		"16": "img/logo32x.png",
+		"48": "img/logo64x.png",
 		"64": "img/logo64x.png",
 		"128": "img/logo128x.png"
 	},
 	"browser_action" : {
 		"default_icon": {
 			"19": "img/logo32x.png",
-			"38": "img/logo48x.png"
+			"38": "img/logo32x.png"
         },
 		"default_popup" : "tabstacks.html",
 		"default_title" : "Tab Stacks"
@@ -22,14 +22,16 @@
 		"_execute_browser_action": {
 			"suggested_key" : {
 				"windows" : "Ctrl+Shift+T",
-				"mac" :	"MacCtrl+Shift+T"
+				"mac" :	"Ctrl+Shift+T"
 			}
 		}
 	},
 	"permissions" : [
 		"activeTab",
 		"tabs",
-		"history"
+		"history",
+		"chrome://favicon/*",
+		"<all_urls>"
 	]
 
 }
