@@ -12,27 +12,37 @@
  */
 
 var TabMasterModel = {
-  init: function () {
+  init: function (elem) {
 
     var self = this;
+
+    this.myElem = elem;
 
     this.myWindowIDs = [];
     this.myTabs = [];
     this.MSPERDAY = 86400000; //milliseconds per day
-    this.SEARCH_DURATION = 5; //days
+    this.SEARCH_DURATION = 30; //days
+    this.searchTerm = "";
+    this.keyboardableList = null;
 
     chrome.tabs.query({}, function getAllTheTabs(tabs){
 
-      tabs.forEach(function (tab, tabindex) {
+      var i = tabs.length-1;
+      for(i; i >= 0; i=i-1){
+        self.myTabs.push(tabs[i]);
+      }
+      self.renderList();
 
-        self.myTabs.push(tab);
-
-        // check for the last tab of the last window -- this is the final callback
-        if(tabindex === (tabs.length-1)) {
-          self.renderList();
-        }
-
-      });
+      // tabs.forEach(function (tab, tabindex) {
+      //
+      //   self.myTabs.push(tab);
+      //
+      //   // check for the last tab of the last window -- this is the final callback
+      //   if(tabindex === (tabs.length-1)) {
+      //     self.renderList();
+      //   }
+      //
+      // });
 
     });
 
@@ -58,20 +68,30 @@ var TabMasterModel = {
       if(!self.myWindowIDs.includes(self.myTabs[i].windowId))
         self.myWindowIDs.push(self.myTabs[i].windowId);
 
+      if(i < self.myTabs.length-1 && self.myTabs[i].windowId !== self.myTabs[i+1].windowId){
+
+        var wb = document.createElement('li');
+        wb.className = "window-break";
+        list.append(wb);
+      }
+
       list.appendChild(self.___renderTab( self.myTabs[i] ) );
 
     }
 
-    document.getElementById("tab-count").innerHTML = ""+self.myTabs.length;
-    document.getElementById("window-count").innerHTML = ""+self.myWindowIDs.length;
+    document.getElementById("tab-count").innerText = ""+self.myTabs.length;
+    document.getElementById("window-count").innerText = ""+self.myWindowIDs.length;
+    document.getElementById("tab-count-label").innerText = self.myTabs.length > 1 ? "tabs": "tab";
+    document.getElementById("window-count-label").innerText = self.myWindowIDs.length > 1 ? "windows" : "window";
 
     document.getElementById("open_tabs").appendChild(list);
 
-    KeyboardableList.generate(list);
-
-    this.___setNote(""+self.myTabs.length+" open tabs", null, false);
+    this.___setNote("<div class='results'>"+self.myTabs.length+" open tabs</div>", null, false);
 
     this.clearButton(false);
+
+    this.keyboardableList = KeyboardableList.generate(this.myElem);
+
   },
 
   ___renderTab: function(tab){
@@ -79,11 +99,15 @@ var TabMasterModel = {
      faviconSpan     = document.createElement("SPAN"),
      favicon      = document.createElement("IMG"),
      titletxt     = document.createElement("SPAN"),
-     row          = document.createElement("LI");
+     row          = document.createElement("LI"),
+        self = this;
+
+    row.setAttribute("role", "presentation");
 
     tabref.setAttribute("data-tabid", tab.id);
     tabref.setAttribute("data-windowid", tab.windowId);
     tabref.setAttribute("data-url", tab.url);
+    tabref.setAttribute("aria-label", tab.title);
 
     faviconSpan.className = "favicon";
     favicon.setAttribute("src", (typeof tab.favIconUrl === 'undefined' ? "img/icon-blank-tab.svg" : tab.favIconUrl));
@@ -98,6 +122,19 @@ var TabMasterModel = {
     tabref.addEventListener('click', function __clickAndShowTab() {
       chrome.tabs.get( parseInt(this.getAttribute("data-tabid")), TabMasterModel.showTab );
     });
+
+    tabref.addEventListener('keyup', function __deleteTab(kevt){
+      if(kevt.keyCode === 8 || kevt.keyCode === 46){
+          var btn = kevt.target;
+          self.__removeTab( parseInt(btn.getAttribute("data-tabid")), btn);
+      }
+    });
+
+    
+    // TODO: Add context menu for delete, pin, and bookmark
+    // tabref.addEventListener('contextmenu', function(ctxevt){
+    //   ctxevt.preventDefault();
+    // });
 
     favicon.addEventListener('error', function __faviconLoadError(err){
       err.target.src = "img/icon-blank-tab.svg";
@@ -114,25 +151,69 @@ var TabMasterModel = {
     var note = document.createElement("div");
     note.className = visible ? "notif" : "accessibilityText";
     note.setAttribute('role', 'alert');
-    note.textContent = textLine1;
+    note.innerHTML = textLine1;
 
     document.getElementById("note").appendChild(note);
 
-    // search recent browser history, user might have closed the tab
+    // return handle to second line if there is one
     if(textLine2){
-      var sh = document.createElement("div");
-      sh.textContent = textLine2;
-      note.appendChild(sh);
-      return sh;
+      var sh = document.createElement("template");
+      sh.innerHTML = textLine2;
+      var v = sh.content.firstChild;
+      note.appendChild(v);
+      return v;
     }
 
     return note;
 
   },
 
+  __removeTab: function(tabNum, target){
+
+    var parList = target !== null ? target.parentNode.parentNode.childNodes : null,
+      index = Array.from(target.parentNode.parentNode.childNodes).indexOf(target.parentNode);
+
+    chrome.tabs.remove( tabNum );
+    var tindex = this.myTabs.findIndex(function(tab){
+      return tab.id === tabNum;
+    });
+
+    this.myTabs.splice(tindex, 1);
+
+    if(parList){
+
+      var t = this.keyboardableList.getMenuListItems().indexOf(target);
+      if(t > -1)
+        this.keyboardableList.getMenuListItems().splice(t, 1);
+
+      // if parent element is only thing, focus on the input field
+      if(parList.length === 1){
+        document.getElementById('tabSearch').focus();
+
+        target.parentElement.remove();
+      }
+
+      // if parent element li is last, focus on previous item
+      else if (index === parList.length-1 ) {
+        target.parentNode.previousSibling.childNodes[0].focus();
+        target.parentElement.remove();
+      }
+
+      // focus on next item in the list
+      else {
+        target.parentNode.nextSibling.childNodes[0].focus();
+        target.parentElement.remove();
+      }
+
+    }
+
+  },
+
   filterTabs: function(search_term){
 
     var self = this;
+
+    self.searchTerm = search_term;
 
     if(!search_term || search_term.length === 0){
       self.clearList("open_tabs");
@@ -154,10 +235,7 @@ var TabMasterModel = {
 
     if(!results || results.length === 0){
 
-      var sh = self.___setNote("No open tabs matching \""+search_term+"\"", "searching history...", true);
-
-      self.clearButton(true);
-      self.searchHistory(search_term, sh);
+      self.searchHistory(search_term);
       return false;
     }
 
@@ -167,10 +245,11 @@ var TabMasterModel = {
       list.appendChild(self.___renderTab(tab));
     });
     document.getElementById("open_tabs").appendChild(list);
-    KeyboardableList.generate(list);
+    self.keyboardableList = KeyboardableList.generate(self.myElem);
 
     self.clearButton(true);
-    self.___setNote(""+results.length+" tabs matching \""+search_term+"\"", null, true);
+    var tab_or_tabs = results.length > 1 ? " tabs" : " tab";
+    self.___setNote("<div class='results pullleft'>"+results.length+tab_or_tabs+" matching \""+search_term+"\"</div>", "<div class='subtext pullright'>CTRL+S to search history</div>", true);
 
   },
 
@@ -187,19 +266,29 @@ var TabMasterModel = {
     this.myClearButton = button_elem;
 
     search_elem.addEventListener('keyup', function __keypressAndFilterEvent(event) {
-      if(event.keyCode === 40) {
-        document.getElementById("open_tabs").querySelector('button, a').focus();
-        event.preventDefault();
-      }
-      else {
+      if(event.target.value !== self.searchTerm)
         self.filterTabs( event.target.value );
+
+      else if(event.ctrlKey && event.keyCode === 83){
+        self.searchHistory(event.target.value);
       }
     });
+    
     button_elem.addEventListener('click', function __clearAndRenderEvent(event) {
       search_elem.value = "";
       self.clearList("open_tabs");
       self.clearList("note");
       self.renderList();
+    });
+
+    document.getElementById('open_tabs').addEventListener('click', function(cevent){
+      if(cevent.target.getAttribute('data-tabid')){
+          var tgt = parseInt(cevent.target.getAttribute('data-tabid'));
+          //chrome.tabs.get( tgt, TabMasterModel.showTab );
+          self.showTab(tgt);
+          cevent.preventDefault();
+      }
+
     });
   },
 
@@ -211,17 +300,22 @@ var TabMasterModel = {
             return false;
           }
           this.myClearButton.className = "show";
+          if(this.myClearButton.hasAttribute("disabled")){
+              this.myClearButton.removeAttribute("disabled");
+          }
           break;
         case false:
           if(this.myClearButton.classList.contains("hide")){
             return false;
           }
           this.myClearButton.className = "hide";
+          this.myClearButton.setAttribute("disabled", "true");
           break;
       }
       return true;
     }
   },
+
   __makelink: function(history_item){ // pass a history item
     var link = document.createElement("A");
     link.setAttribute("href", history_item.url);
@@ -230,6 +324,7 @@ var TabMasterModel = {
     link.setAttribute("target", "_blank");
     return link;
   },
+
   __renderLinks: function(history_array){
     var self = this;
     var list = document.createElement("ul");
@@ -254,10 +349,15 @@ var TabMasterModel = {
     });
     return list;
   },
-  searchHistory: function(searchterm, textUpdate){
+  
+  searchHistory: function(searchterm){
 
-    var self = this, newtime;
+    var self = this,
     newtime = Date.now() - (self.SEARCH_DURATION  * self.MSPERDAY ); // search within # days of search duration
+
+    self.clearButton(true);
+
+    var textUpdate = self.___setNote("<div class='results'>No open tabs matching \""+searchterm+"\"</div>", "<div class='subtext'>searching history...</div>", true);
 
     chrome.history.search({ text: searchterm, startTime: newtime, maxResults: 25}, function(history_array){
 
@@ -265,11 +365,12 @@ var TabMasterModel = {
         self.clearList("open_tabs");
 
         var list = self.__renderLinks(history_array);
-        textUpdate.textContent = " "+history_array.length;
-        textUpdate.textContent += history_array.length > 1 ? " links in history" : " link in history";
+        var plural = history_array.length > 1 ? " links in history" : " link in history";
+
+        self.___setNote("<div class='results'>Found "+history_array.length+" "+plural+" matching \""+searchterm+"\"</div>", null, true);
 
         document.getElementById("open_tabs").appendChild(list);
-        KeyboardableList.generate(list);
+        self.keyboardableList = KeyboardableList.generate(self.myElem);
       }
       else {
         textUpdate.textContent = "No history items found either. Searched back to "+new Date(newtime).toDateString();
@@ -282,7 +383,12 @@ var TabMasterModel = {
 document.addEventListener('DOMContentLoaded', function() {
 
   var tabModel = Object.create(TabMasterModel);
-  tabModel.init();
+  tabModel.init(document.getElementById('tabstacks'));
   tabModel.attachListeners(document.getElementById('tabSearch'), document.getElementById('resetButton'));
+
+  function searchHistoryNow(){
+    console.log("force search history ", tabModel.mySearchField.value);
+    tabModel.searchHistory(tabModel.mySearchField.value);
+  }
 
 });

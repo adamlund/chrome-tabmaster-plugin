@@ -6,14 +6,14 @@
 	"version" : "1.1.0",
 	"icons": {
 		"16": "img/logo32x.png",
-		"48": "img/logo48x.png",
+		"48": "img/logo64x.png",
 		"64": "img/logo64x.png",
 		"128": "img/logo128x.png"
 	},
 	"browser_action" : {
 		"default_icon": {
-			"19": "img/logo64x.png",
-			"38": "img/logo64x.png"
+			"19": "img/logo32x.png",
+			"38": "img/logo32x.png"
         },
 		"default_popup" : "tabstacks.html",
 		"default_title" : "Tab Stacks"
@@ -22,14 +22,16 @@
 		"_execute_browser_action": {
 			"suggested_key" : {
 				"windows" : "Ctrl+Shift+T",
-				"mac" :	"MacCtrl+Shift+T"
+				"mac" :	"Ctrl+Shift+T"
 			}
 		}
 	},
 	"permissions" : [
 		"activeTab",
 		"tabs",
-		"history"
+		"history",
+		"chrome://favicon/*",
+		"<all_urls>"
 	]
 
 }

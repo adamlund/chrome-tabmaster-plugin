@@ -51,14 +51,14 @@ var KeyboardableList = {
     this.menuElement = menuElement;
     this.menuElement.setAttribute('role', 'menu');
 
-    var menulistitems = [].slice.call( this.menuElement.querySelectorAll( _self.SELECTABLEITEMS) );
+    this.menulistitems = [].slice.call( this.menuElement.querySelectorAll( _self.SELECTABLEITEMS) );
 
-    // Commented out for now -- but the proper treatment for menus is to add role='presentation' attribute to the menu item container
+    // .Commented out for now -- but the proper treatment for menus is to add role='presentation' attribute to the menu item container
     // menulistitems.forEach(function(listitem, listitemindex) {
     //   listitem.setAttribute("role", "presentation");
     // });
 
-    menulistitems.forEach(function(menuitem){
+    this.menulistitems.forEach(function(menuitem){
 
       menuitem.setAttribute("role", "menuitem");
 
@@ -67,15 +67,15 @@ var KeyboardableList = {
         switch(kevt.keyCode || kevt.which) {
 
           case _self.KEYMAP['DOWN']:
-          case _self.KEYMAP['RIGHT']:     //right or down arrow -- focus next menu item in order
-            _self.focusOn(_self.DIRECTION['NEXT'], menuitem, menulistitems);
-            kevt.preventDefault();
+          //case _self.KEYMAP['RIGHT']:     //right or down arrow -- focus next menu item in order
+            _self.focusOn(_self.DIRECTION['NEXT'], menuitem, kevt);
+
             break;
 
           case _self.KEYMAP['UP']:        //up arrow -- move focus to previous node
-          case _self.KEYMAP['LEFT']:      //left arrow -- move focus to previous node
-            _self.focusOn(_self.DIRECTION['PREVIOUS'], menuitem, menulistitems);
-            kevt.preventDefault();
+          //case _self.KEYMAP['LEFT']:      //left arrow -- move focus to previous node
+            _self.focusOn(_self.DIRECTION['PREVIOUS'], menuitem, kevt);
+
             break;
 
           /* Iterate over all the interactive and focusable elements in the menu */
@@ -133,32 +133,36 @@ var KeyboardableList = {
     return this;
   },
 
-  focusOn: function(direction, menuitem, menulistitems){
+  focusOn: function(direction, menuitem, event){
     var _self = this;
 
     if(menuitem === document.activeElement) {
 
-      var l = menulistitems.length;
-      var p = menulistitems.indexOf(menuitem);
+      var l = this.menulistitems.length;
+      var p = this.menulistitems.indexOf(menuitem);
 
       switch (direction) {
 
         case _self.DIRECTION['PREVIOUS']:
-          if (p === 0) {
-            menulistitems[l - 1].focus();
+          if (_self.opts.tab_mode === 0 && p === 0) {
+            this.menulistitems[l - 1].focus();
+            event.preventDefault();
           }
-          else {
-            menulistitems[p - 1].focus();
+          else if(p !== 0) {
+            this.menulistitems[p - 1].focus();
+            event.preventDefault();
           }
           break;
 
         case _self.DIRECTION['NEXT']:
 
-          if (p === l - 1) {
-            menulistitems[0].focus();
+          if (_self.opts.tab_mode === 0 && p === l - 1) {
+            this.menulistitems[0].focus();
+            event.preventDefault();
           }
-          else {
-            menulistitems[p + 1].focus();
+          else if(p !== l - 1) {
+            this.menulistitems[p + 1].focus();
+            event.preventDefault();
           }
           break;
       }
@@ -170,6 +174,10 @@ var KeyboardableList = {
    */
   setDropmenu: function(dropMenu){
     this.dropMenu = dropMenu;
+  },
+
+  getMenuListItems: function(){
+    return this.menulistitems;
   },
 
   generate: function(menuElement){

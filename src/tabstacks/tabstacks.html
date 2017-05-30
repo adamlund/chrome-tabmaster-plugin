@@ -8,15 +8,15 @@
     <script src="tabstacks.js"></script>
   </head>
   <body>
-  	<div class="wrapper">
+  	<div id="tabstacks" class="wrapper">
       <div class="popupheader">
         <div class="stats">
-          <img src="img/icon-tabs.svg" height="16" width="20" alt="Tab Count"> <span id="tab-count"></span><span class="lbltxt">tabs</span>
-          <img src="img/icon-window.svg" height="16" width="20" alt="Window Count"> <span id="window-count"></span><span class="lbltxt">windows</span>
+          <img src="img/icon-tabs.svg" height="16" width="20" alt="Tab Count"> <span id="tab-count"></span><span id="tab-count-label" class="lbltxt">tabs</span>
+          <img src="img/icon-window.svg" height="16" width="20" alt="Window Count"> <span id="window-count"></span><span id="window-count-label" class="lbltxt">windows</span>
         </div>
         <div class="tabfilter">
           <input type="text" id="tabSearch" placeholder="Filter tabs by title" aria-label="Filter tabs by title name">
-          <button id="resetButton" class="clearfield hide">
+          <button id="resetButton" class="clearfield hide" tabindex="-1">
             <img src="img/icon-close.svg" height="20" width="20" alt="Reset search" aria-label="Research search">
           </button>
         </div>
