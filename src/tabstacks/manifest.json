@@ -1,9 +1,9 @@
 {
 	"manifest_version" : 2,
 
-	"name" : "Tab Stacks: A menu listing your open tabs",
-	"description" : "View and search through open tabs and search history to find what you're looking for.",
-	"version" : "1.0.4",
+	"name" : "Tab Stacks: tab menu and history search",
+	"description" : "View and search through open tabs and browser history.",
+	"version" : "1.0.5",
 	"icons": {
 		"16": "img/logo32x.png",
 		"48": "img/logo64x.png",
@@ -21,8 +21,8 @@
 	"commands" : {
 		"_execute_browser_action": {
 			"suggested_key" : {
-				"windows" : "Ctrl+Shift+T",
-				"mac" :	"Ctrl+Shift+T"
+				"windows" : "Ctrl+Shift+K",
+				"mac" :	"MacCtrl+Shift+K"
 			}
 		}
 	},

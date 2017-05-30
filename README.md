@@ -16,7 +16,7 @@ Tab Stacks is for the multitasker; who has a lot of open tabs and doesn't want t
 
 ### How to use
 Tab Stacks has been designed for keyboard usage to make finding what you're looking for as fast as possible. You can also use the mouse or touch (of course).
-1. Press **CTRL+SHIFT+T** on your keyboard or click the icon to open the Tab Stacks menu
+1. Press **CTRL+SHIFT+K** on your keyboard or click the icon to open the Tab Stacks menu
 2. Type what you can remember of the page you're looking for
     * Tab Stacks matches to the title OR text in the URL
 3. Press the down arrow key to start navigating through the tabs
