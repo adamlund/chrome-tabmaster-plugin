@@ -170,42 +170,30 @@ var TabMasterModel = {
 
   __removeTab: function(tabNum, target){
 
-    var parList = target !== null ? target.parentNode.parentNode.childNodes : null,
-      index = Array.from(target.parentNode.parentNode.childNodes).indexOf(target.parentNode);
-
-    chrome.tabs.remove( tabNum );
+    // remove the tab object reference from model
+    // search through the model to return the tab with id matching parameter
     var tindex = this.myTabs.findIndex(function(tab){
       return tab.id === tabNum;
     });
 
+    // remove the button and LI from DOM
+    var t = this.keyboardableList.getMenuListItems().indexOf(target);
+
+    // set focus to the next thing if there is one, previous, or the input field
+    if(this.keyboardableList.menulistitems.length > 2 && t < this.keyboardableList.menulistitems.length-1)
+      this.keyboardableList.focusNext();
+
+    else
+      this.keyboardableList.focusPrevious();
+
+    if(t > -1)
+      this.keyboardableList.getMenuListItems().splice(t, 1);
+
     this.myTabs.splice(tindex, 1);
+    target.parentElement.remove();
 
-    if(parList){
-
-      var t = this.keyboardableList.getMenuListItems().indexOf(target);
-      if(t > -1)
-        this.keyboardableList.getMenuListItems().splice(t, 1);
-
-      // if parent element is only thing, focus on the input field
-      if(parList.length === 1){
-        document.getElementById('tabSearch').focus();
-
-        target.parentElement.remove();
-      }
-
-      // if parent element li is last, focus on previous item
-      else if (index === parList.length-1 ) {
-        target.parentNode.previousSibling.childNodes[0].focus();
-        target.parentElement.remove();
-      }
-
-      // focus on next item in the list
-      else {
-        target.parentNode.nextSibling.childNodes[0].focus();
-        target.parentElement.remove();
-      }
-
-    }
+    // remove tab from chrome
+    chrome.tabs.remove( tabNum );
 
   },
 

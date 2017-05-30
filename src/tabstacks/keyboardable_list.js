@@ -146,11 +146,13 @@ var KeyboardableList = {
         case _self.DIRECTION['PREVIOUS']:
           if (_self.opts.tab_mode === 0 && p === 0) {
             this.menulistitems[l - 1].focus();
-            event.preventDefault();
+            if(event)
+              event.preventDefault();
           }
           else if(p !== 0) {
             this.menulistitems[p - 1].focus();
-            event.preventDefault();
+            if(event)
+              event.preventDefault();
           }
           break;
 
@@ -158,15 +160,42 @@ var KeyboardableList = {
 
           if (_self.opts.tab_mode === 0 && p === l - 1) {
             this.menulistitems[0].focus();
-            event.preventDefault();
+            if(event)
+              event.preventDefault();
           }
           else if(p !== l - 1) {
             this.menulistitems[p + 1].focus();
-            event.preventDefault();
+            if(event)
+              event.preventDefault();
           }
           break;
       }
     }
+  },
+
+  focusNext: function(){
+    var active = this.menulistitems.indexOf( document.activeElement );
+
+    if(active > -1)
+      this.focusOn(this.DIRECTION.NEXT, this.menulistitems[active], null);
+
+    else if(this.menulistitems.length > 0)
+      this.focusOn(this.DIRECTION.NEXT, this.menulistitems[0], null);
+
+    else
+      throw new Error("KeyboardableList.focusNext called but there is no list element in focus");
+  },
+  focusPrevious: function(){
+    var active = this.menulistitems.indexOf( document.activeElement );
+
+    if(active > -1)
+      this.focusOn(this.DIRECTION.PREVIOUS, this.menulistitems[active], null);
+
+    else if(this.menulistitems.length > 0)
+      this.focusOn(this.DIRECTION.PREVIOUS, this.menulistitems[0], null);
+
+    else
+      throw new Error("KeyboardableList.focusNext called but there is no list element in focus");
   },
   /**
    * Add reference to the parent dropmenu -- to close it upon certain actions
