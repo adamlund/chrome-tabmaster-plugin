@@ -386,9 +386,5 @@ document.addEventListener('DOMContentLoaded', function() {
   tabModel.init(document.getElementById('tabstacks'));
   tabModel.attachListeners(document.getElementById('tabSearch'), document.getElementById('resetButton'));
 
-  function searchHistoryNow(){
-    console.log("force search history ", tabModel.mySearchField.value);
-    tabModel.searchHistory(tabModel.mySearchField.value);
-  }
 
 });
