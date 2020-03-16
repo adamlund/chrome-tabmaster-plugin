@@ -5,3 +5,5 @@
 *.zip
 *.idea
 promo/*
+node_modules
+TODO.md
