@@ -4,16 +4,13 @@
     <title>Currently open tabs in Chrome</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="styles/main.css">
-    <script src="keyboardable_list.js"></script>
-    <script src="tabstacks.js"></script>
+    <script type="module" src="components.js"></script>
+    <script type="module" src="tabstacks.js"></script>
   </head>
   <body>
   	<div id="tabstacks" class="wrapper">
       <div class="popupheader">
-        <div class="stats">
-          <img src="img/icon-tabs.svg" height="16" width="20" alt="Tab Count"> <span id="tab-count"></span><span id="tab-count-label" class="lbltxt">tabs</span>
-          <img src="img/icon-window.svg" height="16" width="20" alt="Window Count"> <span id="window-count"></span><span id="window-count-label" class="lbltxt">windows</span>
-        </div>
+        <header-stats windows="0" tabs="0"></header-stats>
         <div class="tabfilter">
           <input type="text" id="tabSearch" placeholder="Filter tabs by title" aria-label="Filter tabs by title name">
           <button id="resetButton" class="clearfield hide" tabindex="-1">

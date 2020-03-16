@@ -76,57 +76,14 @@ body {
     outline: none;
     border: solid 2px #1194F6;
 }
-.lbltxt {
-    margin-right: 20px;
-    margin-left: 7px;
-    color: #787878;
-    font-size: 75%;
-    text-transform: uppercase;
-}
 h2 {
     font-size: 1.5em;
 }
-
 /**
     Content
  */
 .tablist {
     overflow-y: scroll;
-}
-.tablist button {
-    display: flex;
-    padding: 11px 21px 11px 7px;
-    margin: 0;
-    font-size: .75em;
-    width: 100%;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-    background-color: #F5F5F5;
-    box-shadow: inset 0 0 0 0 #F5F5F5;
-    transition: box-shadow .33s;
-}
-.tablist button:hover,
-.tablist button:focus {
-    background-color: #fff;
-}
-.tablist button:focus {
-    outline: none;
-    box-shadow: inset 0 0 0 3px rgba(17,148,246,1);
-    z-index: 10000;
-}
-.tablist a:focus {
-    outline: none;
-    border: solid 2px #1194F6;
-}
-.tablist span.favicon {
-    width: 15px;
-    height: 15px;
-    margin-right: 10px;
-}
-.tablist button img {
-    width: 15px;
-    height: 15px;
 }
 .tablist ul {
     padding: 0;
@@ -139,38 +96,14 @@ h2 {
 .tablist ul li:first-of-type {
     border-top: none;
 }
-.tablist ul > li > a,
-.tablist ul > li > a:visited {
-    color: blue;
-    text-decoration: none;
-}
-.tablist ul > li.histItem:hover {
-    background-color: #fff;
-}
-.tablist ul > li.histItem {
-    font-size: .85em;
-    padding: 11px 21px 11px 7px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    background-color: #F5F5F5;
-}
-.tablist ul > li.histItem div {
-    font-size: 85%;
-    margin-top: 3px;
-    color: #787878;
-}
-
 .tablist ul > li.window-break {
     height: 10px;
     background-color: #fff;
 }
-
 .tablist ul > li.window-break div {
     width: 100%;
     height: 1px;
 }
-
 
 .windowbox {
     border-left: solid 3px #787878;
