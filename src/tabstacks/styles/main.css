@@ -2,7 +2,7 @@
     Reset
  */
 html, body {
-    height: 464px;
+    max-height: 464px;
     overflow: hidden;
 }
 body {
@@ -83,7 +83,7 @@ h2 {
     Content
  */
 .tablist {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .tablist ul {
     padding: 0;
