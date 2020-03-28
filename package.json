@@ -1,6 +1,6 @@
 {
   "name": "tabstacks-chrome",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Tab management and history search for the Chrome browser",
   "main": "src/tabstacks.js",
   "directories": {
