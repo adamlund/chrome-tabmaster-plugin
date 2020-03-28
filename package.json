@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "karma start"
+    "test": "karma start",
+    "zip": "cd src && zip -vr tabstacks.zip tabstacks/ -x '.DS_Store'"
   },
   "repository": {
     "type": "git",
