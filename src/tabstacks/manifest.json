@@ -3,7 +3,7 @@
 
 	"name" : "Tab Stacks: tab menu and history search",
 	"description" : "View and search through open tabs and browser history.",
-	"version" : "1.0.6",
+	"version" : "1.0.7",
 	"icons": {
 		"16": "img/logo32x.png",
 		"48": "img/logo64x.png",
@@ -21,6 +21,7 @@
 	"commands" : {
 		"_execute_browser_action": {
 			"suggested_key" : {
+				"default": "Ctrl+Shift+K",
 				"windows" : "Ctrl+Shift+K",
 				"mac" :	"MacCtrl+Shift+K"
 			}
