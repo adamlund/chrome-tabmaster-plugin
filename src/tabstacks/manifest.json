@@ -3,7 +3,7 @@
 
 	"name" : "Tab Stacks: tab menu and history search",
 	"description" : "View and search through open tabs and browser history.",
-	"version" : "1.0.7",
+	"version" : "1.0.8",
 	"icons": {
 		"16": "img/logo32x.png",
 		"48": "img/logo64x.png",
@@ -31,8 +31,6 @@
 		"activeTab",
 		"tabs",
 		"history",
-		"storage",
-		"contextMenus",
 		"chrome://favicon/*",
 		"<all_urls>"
 	]
