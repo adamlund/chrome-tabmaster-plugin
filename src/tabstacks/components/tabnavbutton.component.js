@@ -90,6 +90,7 @@ class TabNavButton extends HTMLElement {
     }
     set favicon(favicon_url) {
         this._favicon = favicon_url;
+        this.faviconElem.setAttribute('loading', 'lazy');
         this.faviconElem.setAttribute('src', this.favicon);
     }
     get favicon() {
