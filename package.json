@@ -28,7 +28,7 @@
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.4.2",
     "jasmine": "^3.5.0",
-    "karma": "^4.4.1",
+    "karma": "^6.4.1",
     "karma-chrome-launcher": "^3.1.0",
     "karma-jasmine": "^3.1.1",
     "karma-spec-reporter": "0.0.32"
