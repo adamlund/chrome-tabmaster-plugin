@@ -1,6 +1,6 @@
 {
   "name": "tabstacks-chrome",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Tab management and history search for the Chrome browser",
   "main": "src/tabstacks.js",
   "directories": {
@@ -24,15 +24,6 @@
     "url": "https://github.com/adamlund/chrome-tabmaster-plugin/issues"
   },
   "homepage": "https://github.com/adamlund/chrome-tabmaster-plugin#readme",
-  "dependencies": {},
-  "devDependencies": {
-    "@webcomponents/webcomponentsjs": "^2.4.2",
-    "jasmine": "^3.5.0",
-    "karma": "^4.4.1",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-jasmine": "^3.1.1",
-    "karma-spec-reporter": "0.0.32"
-  },
   "prettier": {
     "trailingComma": "es5",
     "tabWidth": 4,
