@@ -1,38 +1,35 @@
 {
-	"manifest_version" : 2,
-
-	"name" : "Tab Stacks: tab menu and history search",
-	"description" : "View and search through open tabs and browser history.",
-	"version" : "1.0.8",
-	"icons": {
-		"16": "img/logo32x.png",
-		"48": "img/logo64x.png",
-		"64": "img/logo64x.png",
-		"128": "img/logo128x.png"
-	},
-	"browser_action" : {
-		"default_icon": {
-			"19": "img/logo32x.png",
-			"38": "img/logo32x.png"
-        },
-		"default_popup" : "tabstacks.html",
-		"default_title" : "Tab Stacks"
-	},
-	"commands" : {
-		"_execute_browser_action": {
-			"suggested_key" : {
-				"default": "Ctrl+Shift+K",
-				"windows" : "Ctrl+Shift+K",
-				"mac" :	"MacCtrl+Shift+K"
-			}
-		}
-	},
-	"permissions" : [
-		"activeTab",
-		"tabs",
-		"history",
-		"chrome://favicon/*",
-		"<all_urls>"
-	]
-
+  "manifest_version": 3,
+  "name": "Tab tab menu and search history",
+  "description": "View and search through open tabs and browser history.",
+  "version": "1.1.0",
+  "icons": {
+    "16": "img/logo32x.png",
+    "48": "img/logo64x.png",
+    "64": "img/logo64x.png",
+    "128": "img/logo128x.png"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K",
+        "windows": "Ctrl+Shift+K",
+        "mac": "MacCtrl+Shift+K"
+      }
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "history"
+  ],
+  "action": {
+    "default_icon": {
+      "19": "img/logo32x.png",
+      "38": "img/logo32x.png"
+    },
+    "default_popup": "tabstacks.html",
+    "default_title": "Tab Stacks"
+  },
+  "content_security_policy": {}
 }
